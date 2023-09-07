@@ -203,7 +203,7 @@ class User {
     }
   }
 
-  //TODO UPDATE UI~~~~~~~~~~~~~~~~~~~~~~~
+
 
   //Adds favorite to user via api and locally
   async addFavorite(storyId) {
