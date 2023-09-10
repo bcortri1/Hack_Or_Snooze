@@ -1,5 +1,4 @@
 "use strict";
-
 // This is the global list of the stories, an instance of StoryList
 let storyList;
 
@@ -29,7 +28,7 @@ function generateStoryMarkup(story) {
     if (currentUser) {
         const favorited = currentUser.isFavorite(story.storyId) ? "&starf;" : "&star;";
         favHtml = `<span class="story-favorite">${favorited}</span>`
-        removeHtml = currentUser.username === story.username ? `<button class="story-remove">Remove</button>`: null
+        removeHtml = currentUser.username === story.username ? `<button class="story-remove">Remove</button>`: ""
     }
     return $(`
       <li id="${story.storyId}">
@@ -74,6 +73,7 @@ async function storySubmission(evt) {
     const $story = generateStoryMarkup(story);
     $allStoriesList.prepend($story);
     $storyForm[0].reset();
+    $emptyOwnMsg.hide();
 }
 
 $storySubmit.on("click", storySubmission);
@@ -87,6 +87,7 @@ $allStoriesList.on("click", ".story-favorite", function (evt) {
     else {
         currentUser.addFavorite(storyId);
         evt.target.innerHTML = "&starf;"
+        $emptyFavMsg.hide();
     }
 });
 

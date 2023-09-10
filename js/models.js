@@ -207,9 +207,8 @@ class User {
 
   //Adds favorite to user via api and locally
   async addFavorite(storyId) {
-    axios.post(`${BASE_URL}/users/${this.username}/favorites/${storyId}`, { token: this.loginToken });
-    let response = await axios.get(`${BASE_URL}/stories/${storyId}`);
-    this.favorites.unshift(response.data.story);
+    let res = await axios.post(`${BASE_URL}/users/${this.username}/favorites/${storyId}`, { token: this.loginToken });
+    this.favorites = res.data.user.favorites;
   }
 
   //Returns users array of favorites
@@ -226,7 +225,6 @@ class User {
       method: "DELETE",
       data: { token: this.loginToken }
     });
-
     this.favorites = this.favorites.filter(function (favorite) {
       return !favorite.storyId === storyId;
     });
@@ -270,10 +268,10 @@ class User {
     });
 
     this.ownStories = this.ownStories.filter(function (story) {
-      return !story.storyId === storyId;
+      return story.storyId !== storyId;
     });
     this.favorites = this.favorites.filter(function (story) {
-      return !story.storyId === storyId;
+      return story.storyId !== storyId;
     });
     return res;
   }
